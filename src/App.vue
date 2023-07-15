@@ -96,6 +96,7 @@ export default {
     },
     //收集选中选项
     handleSelectionChange(selection) {
+      this.selection=selection;
       this.opt = '';
       for (let i in this.selection) {
         this.opt += this.selection[i].enclosure.link + '\n';

@@ -27,8 +27,12 @@
     </el-row>
     <el-row type="flex" justify="center">
       <el-col :span="20">
-        <textarea id="restxt" v-model=“opt”>
-        </textarea>
+        <el-input
+  type="textarea"
+  :rows="2"
+  placeholder="请输入内容"
+  v-model="opt">
+</el-input>
       </el-col>
     </el-row>
     <el-row type="flex" justify="center">

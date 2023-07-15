@@ -66,7 +66,7 @@ export default {
         data: {
           rss_url: `${this.link}`,
           api_key: "jff7q6kirojkkvw6xitpdyq7sfqgkvpvnoshxblz", // put your api key here
-          count:this.count
+          count: `${this.count}`
         },
       }).done((response) => {
         if (response.status != "ok") {

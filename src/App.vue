@@ -9,7 +9,10 @@
       <el-col :span="16">
         <el-input placeholder="请输入RSS链接" v-model="link" clearable></el-input>
       </el-col>
-      <el-col :span="4">
+      <el-col :span="2">
+        <el-input placeholder="请输入生成多少" v-model="count" clearable></el-input>
+      </el-col>
+      <el-col :span="2">
         <el-button type="primary" @click="trs">点击生成</el-button>
       </el-col>
     </el-row>
@@ -20,6 +23,12 @@
           <el-table-column prop="title" label="标题" width="800"></el-table-column>
           <el-table-column prop="enclosure.link" label="下载地址" show-overflow-tooltip></el-table-column>
         </el-table>
+      </el-col>
+    </el-row>
+    <el-row type="flex" justify="center">
+      <el-col :span="20">
+        <textarea id="restxt" v-model=“opt”>
+        </textarea>
       </el-col>
     </el-row>
     <el-row type="flex" justify="center">
@@ -43,7 +52,8 @@ export default {
     return {
       link: '',
       datas: [],
-      opt: ""
+      opt: "",
+      count:20
     }
   },
   methods: {
@@ -56,6 +66,7 @@ export default {
         data: {
           rss_url: `${this.link}`,
           api_key: "jff7q6kirojkkvw6xitpdyq7sfqgkvpvnoshxblz", // put your api key here
+          count:this.count
         },
       }).done((response) => {
         if (response.status != "ok") {

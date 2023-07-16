@@ -101,6 +101,10 @@ export default {
       }).done((response) => {
         if (response.status != "ok") {
           throw response.message;
+          this.$message({
+              type: 'error',
+              message: `出错了，请确认地址是否正确`
+            });
         }
         for (let i in response.items) {
           const tempObj = {};

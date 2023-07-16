@@ -12,7 +12,7 @@
     </el-row>
     <el-row type="flex" justify="center" class="top20px">
       <el-col :span="4">
-        <el-input placeholder="最大数量，一般动漫网站只给20条" v-model="count" clearable></el-input>
+        <el-input placeholder="最多生成的条数" v-model="count" clearable></el-input>
       </el-col>
       <el-col :span="4">
         <span class="seletTip">选择链接网址：</span>
@@ -66,7 +66,7 @@ export default {
       link: '',
       datas: [],
       opt: "",
-      count:20,
+      count:'',
       options: [{
           value: 'mikan',
           label: '蜜柑动漫'
@@ -96,7 +96,7 @@ export default {
         data: {
           rss_url: `${this.link}`,
           api_key: "jff7q6kirojkkvw6xitpdyq7sfqgkvpvnoshxblz", // 请填写你自己的api_key
-          count: `${this.count}`//最大解析数量
+          count: this.count || 999//最大解析数量
         },
       }).done((response) => {
         for (let i in response.items) {

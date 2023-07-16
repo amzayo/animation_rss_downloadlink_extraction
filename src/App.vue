@@ -18,7 +18,8 @@
     </el-row>
     <el-row type="flex" justify="center">
       <el-col :span="20">
-        <el-table ref="multipleTable" :data="datas" height="700" tooltip-effect="dark" style="width: 100%" @selection-change="handleSelectionChange" :row-key="datas.links">
+        <el-table ref="multipleTable" :data="datas" height="700" tooltip-effect="dark" style="width: 100%"
+          @selection-change="handleSelectionChange" :row-key="datas.links">
           <el-table-column type="selection" width="55"></el-table-column>
           <el-table-column prop="title" label="标题" width="800"></el-table-column>
           <el-table-column prop="enclosure.link" label="下载地址" show-overflow-tooltip></el-table-column>
@@ -27,12 +28,8 @@
     </el-row>
     <el-row type="flex" justify="center">
       <el-col :span="20">
-        <el-input
-  type="textarea"
-  :rows="2"
-  placeholder="请输入内容"
-  v-model="opt">
-</el-input>
+        <el-input type="textarea" :rows="2" placeholder="请输入内容" v-model="opt">
+        </el-input>
       </el-col>
     </el-row>
     <el-row type="flex" justify="center">
@@ -70,7 +67,7 @@ export default {
         data: {
           rss_url: `${this.link}`,
           api_key: "jff7q6kirojkkvw6xitpdyq7sfqgkvpvnoshxblz", // put your api key here
-          count: `${this.count}`
+          count: `${this.count}`//最大解析数量
         },
       }).done((response) => {
         if (response.status != "ok") {
@@ -120,5 +117,4 @@ open() {
 }
 </script>
 
-<style>
-</style>
+<style></style>

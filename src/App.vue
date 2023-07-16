@@ -12,10 +12,10 @@
     </el-row>
     <el-row type="flex" justify="center" class="top20px">
       <el-col :span="4">
-        <el-input placeholder="生成的最大数量，一般这些动漫网站只给20条" v-model="count" clearable></el-input>
+        <el-input placeholder="最大数量，一般动漫网站只给20条" v-model="count" clearable></el-input>
       </el-col>
       <el-col :span="4">
-        <span class="seletTip">您要解析哪个网站的链接：</span>
+        <span class="seletTip">选择链接网址：</span>
       </el-col>
       <el-col :span="4">
         <el-select v-model="type" placeholder="" class="left30px">
@@ -84,7 +84,7 @@ export default {
       if(this.link.trim() === ''){
         this.$message({
               type: 'info',
-              message: `请输入要已提取的订阅`
+              message: `请输入要提取的订阅`
             });
           return false;
       }
@@ -99,13 +99,6 @@ export default {
           count: `${this.count}`//最大解析数量
         },
       }).done((response) => {
-        if (response.status != "ok") {
-          // throw response.message;
-          // this.$message({
-          //     type: 'error',
-          //     message: `出错了，请确认地址是否正确`
-          //   });
-        }
         for (let i in response.items) {
           const tempObj = {};
           if(this.type === 'mikan'){
@@ -119,6 +112,15 @@ export default {
           }
           this.datas.push(tempObj)
         }
+        this.$message({
+              type: 'success',
+              message: `下载地址提取成功`
+            });
+      }).fail((response) => {
+          this.$message({
+              type: 'error',
+              message: `出错了，请确认地址是否正确`
+            });
       });
     },
     

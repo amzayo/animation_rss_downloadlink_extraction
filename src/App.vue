@@ -138,7 +138,10 @@ export default {
   //弹出框
 open() {
         this.$alert(`<p>API by <a target="_blank" href="https://rss2json.com/">rsstojson</a></p>
-        <p>当前只支持解析生成<a  target="_blank" href="https://mikanani.me/">mikan</a>的RSS链接</p>
+        <p>目前支持解析的网站：</p>
+        <p><a  target="_blank" href="https://mikanani.me/">mikan</a></p>
+        <p><a  target="_blank" href="https://www.comicat.org/">漫猫</a></p>
+        <p><a  target="_blank" href="http://www.kisssub.org/">爱恋</a></p>
         <p>By <a target="_blank" href="https://blog.amzayo.com/">amzayo</a></p>`, {
           dangerouslyUseHTMLString: true
         });

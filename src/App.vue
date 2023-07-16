@@ -2,7 +2,7 @@
   <div id="app">
     <el-row type="flex" justify="center" class="top20px" >
       <el-col :span="16">
-        <el-input placeholder="请输入RSS链接" v-model="link" clearable></el-input>
+        <h1>动漫RSS订阅提取下载地址</h1>
       </el-col>
     </el-row>
     <el-row type="flex" justify="center" class="top20px">
@@ -81,6 +81,13 @@ export default {
   methods: {
     //解析RSS to 对象
     trs(){
+      if(this.link.trim() === ''){
+        this.$message({
+              type: 'info',
+              message: `请输入要已提取的订阅`
+            });
+          return false;
+      }
       this.datas = [];
       $.ajax({
         url: "https://api.rss2json.com/v1/api.json",
@@ -89,7 +96,7 @@ export default {
         data: {
           rss_url: `${this.link}`,
           api_key: "jff7q6kirojkkvw6xitpdyq7sfqgkvpvnoshxblz", // 请填写你自己的api_key
-          count: `${this.count}`//最大解析数量S
+          count: `${this.count}`//最大解析数量
         },
       }).done((response) => {
         if (response.status != "ok") {
@@ -158,6 +165,10 @@ open() {
 body{
   min-width: 1000px;
   background-image: url('https://jihulab.com/amzayo/1/-/raw/main/img/background/web.webp');
+}
+h1{
+  color: aliceblue;
+  text-align: center;
 }
 #trsbtn,
 #about{

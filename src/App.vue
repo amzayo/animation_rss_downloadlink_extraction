@@ -187,11 +187,11 @@ export default {
       this.originDatas = [];
       this.showDatas = [];
       $.ajax({
-        url: "https://www.toptal.com/developers/feed2json/convert",
+        url: "https://rss-to-json-serverless-api.vercel.app/api",
         method: "GET",
         dataType: "json",
         data: {
-          url: `${this.link}`,
+          feedURL=: `${this.link}`,
           // api_key: "jff7q6kirojkkvw6xitpdyq7sfqgkvpvnoshxblz", // 请填写你自己的api_key
           // count: this.count || 999//最大解析数量
         },
@@ -200,7 +200,7 @@ export default {
           const tempObj = {};
           if(this.type === 'mikan'){
             tempObj.title = response.items[i].title;
-            tempObj.link = response.items[i].enclosure.link;
+            tempObj.link = response.items[i].enclosure[0].url;
           }else if(this.type === 'manmao/kiss'){
             // 拆分获取到的链接，后续拼接成能用的种子地址
             const templink = response.items[i].enclosure.link.split("hash=")

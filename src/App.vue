@@ -220,7 +220,7 @@ export default {
       });
     },
 //将url中文部分编码函数
-function encodeChineseCharacters(url) {
+encodeChineseCharacters(url) {
   var encodedURL = '';
   for (var i = 0; i < url.length; i++) {
     var char = url.charAt(i);

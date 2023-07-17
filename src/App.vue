@@ -191,7 +191,7 @@ export default {
         method: "GET",
         dataType: "json",
         data: {
-          feedURL=: `${this.link}`,
+          feedURL: `${this.link}`,
           // api_key: "jff7q6kirojkkvw6xitpdyq7sfqgkvpvnoshxblz", // 请填写你自己的api_key
           // count: this.count || 999//最大解析数量
         },

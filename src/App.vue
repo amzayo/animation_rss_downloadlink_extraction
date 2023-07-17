@@ -72,7 +72,6 @@
       <el-col :span="7">
         <el-button @click="copy">复制选中</el-button>
         <el-button @click="reverseSelect">反选</el-button>
-        <el-button @click="filter">test</el-button>
       </el-col>
       <el-col :span="1"><el-button id="about" @click="open">关于</el-button></el-col>
     </el-row>

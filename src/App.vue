@@ -200,7 +200,7 @@ export default {
           const tempObj = {};
           if(this.type === 'mikan'){
             tempObj.title = response.items[i].title;
-            tempObj.link = response.items[i].enclosure[0].url;
+            tempObj.link = response.items[i].enclosures[0].url;
           }else if(this.type === 'manmao/kiss'){
             // 拆分获取到的链接，后续拼接成能用的种子地址
             const templink = response.items[i].enclosure.link.split("hash=")

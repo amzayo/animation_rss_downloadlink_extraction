@@ -187,7 +187,7 @@ export default {
       this.originDatas = [];
       this.showDatas = [];
       $.ajax({
-        url: "https://rss-to-json-serverless-api.vercel.app/api",
+        url: "https://rssapi.amzayo.top/",
         method: "GET",
         dataType: "json",
         data: {

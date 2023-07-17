@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <el-row type="flex" justify="center" class="top20px" >
+    <el-row type="flex" justify="center" class="top20px">
       <el-col :span="16">
         <h1>动漫RSS订阅提取下载地址</h1>
       </el-col>
@@ -18,7 +18,7 @@
         <span class="seletTip">选择链接网址：</span>
       </el-col>
       <el-col :span="4">
-        <el-select v-model="type" placeholder="" class="left30px">
+        <el-select v-model="type" placeholder="" class="left30px" @change="trs">
           <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
           </el-option>
         </el-select>
@@ -27,12 +27,35 @@
         <el-button type="primary" id="trsbtn" @click="trs">点击生成</el-button>
       </el-col>
     </el-row>
-    <el-row>
+    <el-row type="flex" justify="center" class="top20px">
+      <el-col :span="16">
+        <div>
+          <h3>由于各字幕组命名标准不同，可能有些条件并不能匹配到，还请见谅</h3>
+        </div>
+      </el-col>
     </el-row>
     <el-row type="flex" justify="center" class="top20px">
       <el-col :span="16">
-        <el-table ref="multipleTable" :data="datas" height="700" tooltip-effect="dark" style="width: 100%"
-          @selection-change="handleSelectionChange" :row-key="datas.links">
+        <div class="opc">
+          <el-select @change="filter" v-model="resolution.selected" collapse-tags multiple placeholder="分辨率">
+            <el-option v-for="item in resolution.option" :key="item.value" :label="item.label" :value="item.value">
+            </el-option>
+          </el-select>
+          <el-select @change="filter" v-model="subLan.selected" collapse-tags multiple placeholder="字幕语言">
+            <el-option v-for="item in subLan.option" :key="item.value" :label="item.label" :value="item.value">
+            </el-option>
+          </el-select>
+          <el-select @change="filter" v-model="subEM.selected" collapse-tags multiple placeholder="字幕嵌入方式">
+            <el-option v-for="item in subEM.option" :key="item.value" :label="item.label" :value="item.value">
+            </el-option>
+          </el-select>
+        </div>
+      </el-col>
+    </el-row>
+    <el-row type="flex" justify="center" class="top20px">
+      <el-col :span="16">
+        <el-table ref="multipleTable" :data="showDatas" height="700" tooltip-effect="dark" style="width: 100%"
+          @selection-change="handleSelectionChange" :row-key="showDatas.links">
           <el-table-column type="selection" width="55"></el-table-column>
           <el-table-column prop="title" label="标题" width="800"></el-table-column>
           <el-table-column prop="link" label="下载地址" show-overflow-tooltip></el-table-column>
@@ -49,8 +72,9 @@
       <el-col :span="7">
         <el-button @click="copy">复制选中</el-button>
         <el-button @click="reverseSelect">反选</el-button>
+        <el-button @click="filter">test</el-button>
       </el-col>
-      <el-col :span="1"><el-button id="about"  @click="open">关于</el-button></el-col>
+      <el-col :span="1"><el-button id="about" @click="open">关于</el-button></el-col>
     </el-row>
   </div>
 </template>
@@ -64,7 +88,8 @@ export default {
   data() {
     return {
       link: '',
-      datas: [],
+      originDatas:[],
+      showDatas: [],
       opt: "",
       count:'',
       options: [{
@@ -75,7 +100,46 @@ export default {
           label: '漫猫/爱恋动漫'
         }],
       type:'mikan',
-      show: false
+      resolution:{
+        option:[{
+        value: '720',
+        label: '720P'
+      },{
+        value: '1080',
+        label: '1080P'
+      },{
+        value: '1440',
+        label: '1440P'
+      },{
+        value: '2560',
+        label: '2560P'
+      }],
+      selected:[]
+      },
+      subLan:{
+        option:[{
+        value: '简体|GB|简日',
+        label: '简体中文'
+      },{
+        value: 'BIG5|繁日|繁体',
+        label: '繁体中文'
+      }],
+      selected:[]
+      },
+      // 字幕嵌入方式
+      subEM:{
+        option:[{
+        value: '内嵌',
+        label: '内嵌字幕'
+      },{
+        value: '内封',
+        label: '内封字幕'
+      },{
+        value: '外挂',
+        label: '外挂字幕'
+      }],
+      selected:[]
+      }
     }
   },
   methods: {
@@ -88,7 +152,8 @@ export default {
             });
           return false;
       }
-      this.datas = [];
+      this.originDatas = [];
+      this.showDatas = [];
       $.ajax({
         url: "https://api.rss2json.com/v1/api.json",
         method: "GET",
@@ -110,7 +175,8 @@ export default {
             tempObj.title = response.items[i].title;
             tempObj.link = `magnet:?xt=urn:btih:${templink[templink.length-1]}`;
           }
-          this.datas.push(tempObj)
+          this.originDatas.push(tempObj)
+          this.showDatas.push(tempObj)
         }
         this.$message({
               type: 'success',
@@ -123,7 +189,18 @@ export default {
             });
       });
     },
-    
+    // 条件筛选
+    filter(){
+      const resolutioncPattern = new RegExp(this.resolution.selected.join('|'), 'i');
+      const subLanPattern = new RegExp(this.subLan.selected.join('|'), 'i');
+      const subEMPattern = new RegExp(this.subEM.selected.join('|'), 'i');
+      this.showDatas = this.originDatas.filter((item) => {
+        let t = item.title
+          if(resolutioncPattern.test(t) && subLanPattern.test(t) && subEMPattern.test(t)){
+            return item;
+        }
+      })
+    },
     //复制函数
     copy() {
       navigator.clipboard.writeText(this.opt)
@@ -144,7 +221,7 @@ export default {
     },
     //反选
     reverseSelect() {
-    this.datas.forEach(row => {
+    this.showDatas.forEach(row => {
     this.$refs.multipleTable.toggleRowSelection(row);
   })
 },
@@ -164,30 +241,40 @@ open() {
 </script>
 
 <style>
-*{
+* {
   margin: 0;
   padding: 0;
 }
-body{
+
+body {
   min-width: 1000px;
   background-image: url('https://jihulab.com/amzayo/1/-/raw/main/img/background/web.webp');
 }
-h1{
+
+h1,
+h3 {
   color: aliceblue;
   text-align: center;
 }
+
 #trsbtn,
-#about{
+#about {
   float: right;
 }
-.top20px{
+
+.top20px {
   margin-top: 20px;
 }
-.seletTip{
+
+.seletTip {
   line-height: 40px;
   font-size: 14px;
   margin-left: 30px;
   color: white;
 }
 
+.opc {
+  display: flex;
+  justify-content: space-between;
+}
 </style>

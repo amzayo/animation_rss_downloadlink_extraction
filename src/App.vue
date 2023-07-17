@@ -38,24 +38,37 @@
     <el-row type="flex" justify="center" class="top20px">
       <el-col>
         <el-row type="flex" justify="space-between">
-          <el-col :span="7">
+          <el-col :span="11">
             <el-select @change="filter" v-model="resolution.selected" collapse-tags multiple placeholder="分辨率"
               style="width: 100%">
               <el-option v-for="item in resolution.option" :key="item.value" :label="item.label" :value="item.value">
               </el-option>
             </el-select>
           </el-col>
-          <el-col :span="7">
+          <el-col :span="11">
             <el-select @change="filter" v-model="subLan.selected" collapse-tags multiple placeholder="字幕语言"
               style="width: 100%">
               <el-option v-for="item in subLan.option" :key="item.value" :label="item.label" :value="item.value">
               </el-option>
             </el-select>
           </el-col>
-          <el-col :span="7">
+        </el-row>
+      </el-col>
+    </el-row>
+    <el-row type="flex" justify="center" class="top20px">
+      <el-col>
+        <el-row type="flex" justify="space-between">
+          <el-col :span="11">
             <el-select @change="filter" v-model="subEM.selected" collapse-tags multiple placeholder="字幕嵌入方式"
               style="width: 100%">
               <el-option v-for="item in subEM.option" :key="item.value" :label="item.label" :value="item.value">
+              </el-option>
+            </el-select>
+          </el-col>
+          <el-col :span="11">
+            <el-select @change="filter" v-model="compilations.selected" collapse-tags multiple placeholder="是否合集"
+              style="width: 100%">
+              <el-option v-for="item in compilations.option" :key="item.value" :label="item.label" :value="item.value">
               </el-option>
             </el-select>
           </el-col>
@@ -148,7 +161,17 @@ export default {
         label: '外挂字幕'
       }],
       selected:[]
-      }
+      },
+      compilations:{
+        option:[{
+        value: '合集',
+        label: '是'
+      },{
+        value: '?!合集',
+        label: '否'
+      },],
+      selected:[]
+      },
     }
   },
   methods: {
@@ -164,13 +187,13 @@ export default {
       this.originDatas = [];
       this.showDatas = [];
       $.ajax({
-        url: "https://api.rss2json.com/v1/api.json",
+        url: "https://www.toptal.com/developers/feed2json/convert",
         method: "GET",
         dataType: "json",
         data: {
-          rss_url: `${this.link}`,
-          api_key: "jff7q6kirojkkvw6xitpdyq7sfqgkvpvnoshxblz", // 请填写你自己的api_key
-          count: this.count || 999//最大解析数量
+          url: `${this.link}`,
+          // api_key: "jff7q6kirojkkvw6xitpdyq7sfqgkvpvnoshxblz", // 请填写你自己的api_key
+          // count: this.count || 999//最大解析数量
         },
       }).done((response) => {
         for (let i in response.items) {
@@ -203,9 +226,11 @@ export default {
       const resolutioncPattern = new RegExp(this.resolution.selected.join('|'), 'i');
       const subLanPattern = new RegExp(this.subLan.selected.join('|'), 'i');
       const subEMPattern = new RegExp(this.subEM.selected.join('|'), 'i');
+      const compilationsPattern = new RegExp(this.compilations.selected.join('|'), 'i');
+      console.log(compilationsPattern)
       this.showDatas = this.originDatas.filter((item) => {
         let t = item.title
-          if(resolutioncPattern.test(t) && subLanPattern.test(t) && subEMPattern.test(t)){
+          if(resolutioncPattern.test(t) && subLanPattern.test(t) && subEMPattern.test(t) && compilationsPattern.test(t)){
             return item;
         }
       })

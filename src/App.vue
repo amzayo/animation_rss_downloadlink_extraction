@@ -183,7 +183,7 @@ export default {
       }
       this.originDatas = [];
       this.showDatas = [];
-      let eurl = encodeURIComponent(this.link)
+      let eurl = this.encodeChineseCharacters(this.link)
       alert(eurl)
       $.ajax({
         url: "https://rssapi.amzayo.top/",
@@ -218,6 +218,20 @@ export default {
             });
       });
     },
+
+function encodeChineseCharacters(url) {
+  var encodedURL = '';
+  for (var i = 0; i < url.length; i++) {
+    var char = url.charAt(i);
+    if (char.match(/[\u4E00-\u9FA5]/)) {
+      encodedURL += encodeURIComponent(char);
+    } else {
+      encodedURL += char;
+    }
+  }
+  return encodedURL;
+},
+    
     // 条件筛选
     filter(){
       const resolutioncPattern = new RegExp(this.resolution.selected.join('|'), 'i');

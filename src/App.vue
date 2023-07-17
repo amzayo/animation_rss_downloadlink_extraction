@@ -1,86 +1,85 @@
 <template>
-  <div id="app">
+  <div id="app" class="container">
     <el-row type="flex" justify="center" class="top20px">
-      <el-col :span="16">
+      <el-col>
         <h1>动漫RSS订阅提取下载地址</h1>
       </el-col>
     </el-row>
     <el-row type="flex" justify="center" class="top20px">
-      <el-col :span="16">
+      <el-col>
         <el-input placeholder="请输入RSS链接" v-model="link" clearable></el-input>
       </el-col>
     </el-row>
     <el-row type="flex" justify="center" class="top20px">
-      <el-col :span="16">
+      <el-col>
         <el-row type="flex" justify="space-between">
-          <el-col :span="6">
-        <el-input placeholder="最多生成的条数" v-model="count" clearable></el-input>
-      </el-col>
-      <el-col :span="12" style="text-align: center;">
-        <span class="seletTip">选择链接网址：</span>
-        <el-select v-model="type" placeholder="" class="left30px" @change="trs">
-          <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
-          </el-option>
-        </el-select>
-      </el-col>
-      <el-col :span="6">
-        <el-button type="primary" id="trsbtn" @click="trs">点击生成</el-button>
-      </el-col>
+          <el-col :span="7">
+            <el-input placeholder="最多生成几条" v-model="count" clearable></el-input>
+          </el-col>
+          <el-col :span="7" style="text-align: center;">
+            <el-select v-model="type" placeholder="" class="left30px" @change="trs" style="width: 100%">
+              <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
+              </el-option>
+            </el-select>
+          </el-col>
+          <el-col :span="7">
+            <el-button type="primary" id="trsbtn" @click="trs" style="width: 100%">点击生成</el-button>
+          </el-col>
         </el-row>
       </el-col>
     </el-row>
     <el-row type="flex" justify="center" class="top20px">
-      <el-col :span="16">
+      <el-col>
         <div>
           <h3>由于各字幕组命名标准不同，可能有些条件并不能匹配到，还请见谅</h3>
         </div>
       </el-col>
     </el-row>
     <el-row type="flex" justify="center" class="top20px">
-      <el-col :span="16">
+      <el-col>
         <el-row type="flex" justify="space-between">
-          <el-col :span="5">
-            <el-select @change="filter" v-model="resolution.selected" collapse-tags multiple placeholder="分辨率" style="width: 100%">
-            <el-option v-for="item in resolution.option" :key="item.value" :label="item.label" :value="item.value">
-            </el-option>
-          </el-select>
+          <el-col :span="7">
+            <el-select @change="filter" v-model="resolution.selected" collapse-tags multiple placeholder="分辨率"
+              style="width: 100%">
+              <el-option v-for="item in resolution.option" :key="item.value" :label="item.label" :value="item.value">
+              </el-option>
+            </el-select>
           </el-col>
-          <el-col :span="5">
-            <el-select @change="filter" v-model="subLan.selected" collapse-tags multiple placeholder="字幕语言" style="width: 100%">
-            <el-option v-for="item in subLan.option" :key="item.value" :label="item.label" :value="item.value">
-            </el-option>
-          </el-select>
+          <el-col :span="7">
+            <el-select @change="filter" v-model="subLan.selected" collapse-tags multiple placeholder="字幕语言"
+              style="width: 100%">
+              <el-option v-for="item in subLan.option" :key="item.value" :label="item.label" :value="item.value">
+              </el-option>
+            </el-select>
           </el-col>
-          <el-col :span="5">
-            <el-select @change="filter" v-model="subEM.selected" collapse-tags multiple placeholder="字幕嵌入方式" style="width: 100%">
-            <el-option v-for="item in subEM.option" :key="item.value" :label="item.label" :value="item.value">
-            </el-option>
-          </el-select>
+          <el-col :span="7">
+            <el-select @change="filter" v-model="subEM.selected" collapse-tags multiple placeholder="字幕嵌入方式"
+              style="width: 100%">
+              <el-option v-for="item in subEM.option" :key="item.value" :label="item.label" :value="item.value">
+              </el-option>
+            </el-select>
           </el-col>
         </el-row>
-        <!-- <div class="opc"> -->
-          
-        <!-- </div> -->
       </el-col>
     </el-row>
     <el-row type="flex" justify="center" class="top20px">
-      <el-col :span="16">
+      <el-col>
         <el-table ref="multipleTable" :data="showDatas" height="700" tooltip-effect="dark" style="width: 100%"
           @selection-change="handleSelectionChange" :row-key="showDatas.links">
           <el-table-column type="selection" width="55"></el-table-column>
-          <el-table-column prop="title" label="标题" ></el-table-column>
+          <el-table-column prop="title" label="标题"></el-table-column>
           <el-table-column prop="link" label="下载地址" show-overflow-tooltip width="100"></el-table-column>
         </el-table>
       </el-col>
     </el-row>
     <el-row type="flex" justify="center" class="top20px">
-      <el-col :span="16">
+      <el-col>
         <el-input type="textarea" :rows="2" placeholder="如果复制失败，您可以在这里手动复制结果" v-model="opt">
         </el-input>
       </el-col>
     </el-row>
     <el-row type="flex" justify="space-around" class="top20px">
-      <el-col :span="7">
+      <el-col :span="23">
         <el-button @click="copy">复制选中</el-button>
         <el-button @click="reverseSelect">反选</el-button>
       </el-col>
@@ -251,13 +250,46 @@ open() {
 </script>
 
 <style>
+@media screen and (min-width: 1200px) {
+  .container {
+    width: 1127px;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+}
+
+@media screen and (min-width: 922px) and (max-width:1199px) {
+  .container {
+    width: 880px;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+}
+
+@media screen and (min-width: 768px) and (max-width:922px) {
+  .container {
+    width: 723px;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .container {
+    width: 100%;
+    padding: 0px 10px 0 10px !important;
+    box-sizing: border-box;
+    
+  }
+}
+
 * {
   margin: 0;
   padding: 0;
 }
 
 body {
-  min-width: 996px;
+  /* min-width: 996px; */
   background-image: url('https://jihulab.com/amzayo/1/-/raw/main/img/background/web.webp');
 }
 
@@ -265,6 +297,14 @@ h1,
 h3 {
   color: aliceblue;
   text-align: center;
+}
+
+h1 {
+  font-size: 30px;
+}
+
+h3{
+  font-size: 14px;
 }
 
 #trsbtn,
@@ -285,5 +325,4 @@ h3 {
 .opc {
   display: flex;
   justify-content: space-between;
-}
-</style>
+}</style>

@@ -220,12 +220,12 @@ export default {
       });
     },
 //将url中文部分编码函数
-encodeChineseCharacters(url) {
+function encodeChineseCharacters(url) {
   var encodedURL = '';
   for (var i = 0; i < url.length; i++) {
     var char = url.charAt(i);
-    if (char.match(/[\u4E00-\u9FA5]/)) {
-      encodedURL += encodeURIComponent(char);
+    if (char.match(/[\u4E00-\u9FA5]/) || char === '+') {
+      encodedURL += encodeURIComponent(char).replace(/%20/g, '+');
     } else {
       encodedURL += char;
     }

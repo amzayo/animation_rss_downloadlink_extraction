@@ -183,12 +183,13 @@ export default {
       }
       this.originDatas = [];
       this.showDatas = [];
+      let eurl = encodeURIComponent(this.link)
       $.ajax({
         url: "https://rssapi.amzayo.top/",
         method: "GET",
         dataType: "json",
         data: {
-          feedURL: `${this.link}`,
+          feedURL: `${eurl}`,
         },
       }).done((response) => {
         for (let i in response.items) {

@@ -66,7 +66,7 @@
             </el-select>
           </el-col>
           <el-col :span="11">
-            <el-select @change="filter" v-model="compilations.selected" collapse-tags multiple placeholder="是否合集"
+            <el-select @change="filter" v-model="compilations.selected" collapse-tags multiple placeholder="只显示合集"
               style="width: 100%">
               <el-option v-for="item in compilations.option" :key="item.value" :label="item.label" :value="item.value">
               </el-option>
@@ -166,10 +166,7 @@ export default {
         option:[{
         value: '合集',
         label: '是'
-      },{
-        value: '?!合集',
-        label: '否'
-      },],
+      }],
       selected:[]
       },
     }
@@ -192,8 +189,6 @@ export default {
         dataType: "json",
         data: {
           feedURL: `${this.link}`,
-          // api_key: "jff7q6kirojkkvw6xitpdyq7sfqgkvpvnoshxblz", // 请填写你自己的api_key
-          // count: this.count || 999//最大解析数量
         },
       }).done((response) => {
         for (let i in response.items) {

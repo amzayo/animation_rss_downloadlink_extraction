@@ -11,20 +11,22 @@
       </el-col>
     </el-row>
     <el-row type="flex" justify="center" class="top20px">
-      <el-col :span="4">
+      <el-col :span="16">
+        <el-row type="flex" justify="space-between">
+          <el-col :span="6">
         <el-input placeholder="最多生成的条数" v-model="count" clearable></el-input>
       </el-col>
-      <el-col :span="4">
+      <el-col :span="12" style="text-align: center;">
         <span class="seletTip">选择链接网址：</span>
-      </el-col>
-      <el-col :span="4">
         <el-select v-model="type" placeholder="" class="left30px" @change="trs">
           <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
           </el-option>
         </el-select>
       </el-col>
-      <el-col :span="4">
+      <el-col :span="6">
         <el-button type="primary" id="trsbtn" @click="trs">点击生成</el-button>
+      </el-col>
+        </el-row>
       </el-col>
     </el-row>
     <el-row type="flex" justify="center" class="top20px">
@@ -277,7 +279,6 @@ h3 {
 .seletTip {
   line-height: 40px;
   font-size: 14px;
-  margin-left: 30px;
   color: white;
 }
 

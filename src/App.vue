@@ -185,6 +185,7 @@ export default {
       this.showDatas = [];
       //用encodeChineseCharacters方法将中文部分编码，以让后端能正常解析
       let eurl = this.encodeChineseCharacters(this.link)
+      alert(eurl)
       $.ajax({
         url: "https://rssapi.amzayo.top/",
         method: "GET",

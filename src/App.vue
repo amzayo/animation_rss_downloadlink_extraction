@@ -31,7 +31,7 @@
     <el-row type="flex" justify="center" class="top20px">
       <el-col>
         <div>
-          <h3>由于各字幕组命名标准不同，可能有些条件并不能匹配到，还请见谅</h3>
+          <h3>由于各字幕组命名标准不同，筛选结果仅供参考</h3>
         </div>
       </el-col>
     </el-row>
@@ -325,4 +325,5 @@ h3{
 .opc {
   display: flex;
   justify-content: space-between;
-}</style>
+}
+</style>

@@ -36,20 +36,29 @@
     </el-row>
     <el-row type="flex" justify="center" class="top20px">
       <el-col :span="16">
-        <div class="opc">
-          <el-select @change="filter" v-model="resolution.selected" collapse-tags multiple placeholder="分辨率">
+        <el-row type="flex" justify="space-between">
+          <el-col :span="5">
+            <el-select @change="filter" v-model="resolution.selected" collapse-tags multiple placeholder="分辨率" style="width: 100%">
             <el-option v-for="item in resolution.option" :key="item.value" :label="item.label" :value="item.value">
             </el-option>
           </el-select>
-          <el-select @change="filter" v-model="subLan.selected" collapse-tags multiple placeholder="字幕语言">
+          </el-col>
+          <el-col :span="5">
+            <el-select @change="filter" v-model="subLan.selected" collapse-tags multiple placeholder="字幕语言" style="width: 100%">
             <el-option v-for="item in subLan.option" :key="item.value" :label="item.label" :value="item.value">
             </el-option>
           </el-select>
-          <el-select @change="filter" v-model="subEM.selected" collapse-tags multiple placeholder="字幕嵌入方式">
+          </el-col>
+          <el-col :span="5">
+            <el-select @change="filter" v-model="subEM.selected" collapse-tags multiple placeholder="字幕嵌入方式" style="width: 100%">
             <el-option v-for="item in subEM.option" :key="item.value" :label="item.label" :value="item.value">
             </el-option>
           </el-select>
-        </div>
+          </el-col>
+        </el-row>
+        <!-- <div class="opc"> -->
+          
+        <!-- </div> -->
       </el-col>
     </el-row>
     <el-row type="flex" justify="center" class="top20px">
@@ -57,8 +66,8 @@
         <el-table ref="multipleTable" :data="showDatas" height="700" tooltip-effect="dark" style="width: 100%"
           @selection-change="handleSelectionChange" :row-key="showDatas.links">
           <el-table-column type="selection" width="55"></el-table-column>
-          <el-table-column prop="title" label="标题" width="800"></el-table-column>
-          <el-table-column prop="link" label="下载地址" show-overflow-tooltip></el-table-column>
+          <el-table-column prop="title" label="标题" ></el-table-column>
+          <el-table-column prop="link" label="下载地址" show-overflow-tooltip width="100"></el-table-column>
         </el-table>
       </el-col>
     </el-row>
@@ -246,7 +255,7 @@ open() {
 }
 
 body {
-  min-width: 1000px;
+  min-width: 996px;
   background-image: url('https://jihulab.com/amzayo/1/-/raw/main/img/background/web.webp');
 }
 

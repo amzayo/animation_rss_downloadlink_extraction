@@ -184,6 +184,7 @@ export default {
       this.originDatas = [];
       this.showDatas = [];
       let eurl = encodeURIComponent(this.link)
+      alert(eurl)
       $.ajax({
         url: "https://rssapi.amzayo.top/",
         method: "GET",

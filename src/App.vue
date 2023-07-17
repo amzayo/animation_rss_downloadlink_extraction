@@ -203,7 +203,7 @@ export default {
             tempObj.link = response.items[i].enclosures[0].url;
           }else if(this.type === 'manmao/kiss'){
             // 拆分获取到的链接，后续拼接成能用的种子地址
-            const templink = response.items[i].enclosure.link.split("hash=")
+            const templink = response.items[i].enclosures[0].url.split("hash=")
             tempObj.title = response.items[i].title;
             tempObj.link = `magnet:?xt=urn:btih:${templink[templink.length-1]}`;
           }
@@ -261,8 +261,7 @@ export default {
 },
   //弹出框
 open() {
-        this.$alert(`<p>API by <a target="_blank" href="https://rss2json.com/">rsstojson</a></p>
-        <p>目前支持解析的网站：</p>
+        this.$alert(`<p>目前支持解析的网站：</p>
         <p><a  target="_blank" href="https://mikanani.me/">mikan</a></p>
         <p><a  target="_blank" href="https://www.comicat.org/">漫猫</a></p>
         <p><a  target="_blank" href="http://www.kisssub.org/">爱恋</a></p>

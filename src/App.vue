@@ -187,7 +187,7 @@ export default {
       //let eurl = this.encodeChineseCharacters(this.link)
       //alert(eurl)
       $.ajax({
-        url: "https://rssapi.amzayo.top/",
+        url: "https://rssapi.amzayo.top/api",
         method: "GET",
         dataType: "json",
         data: {
@@ -259,7 +259,7 @@ export default {
 },
   //弹出框
 open() {
-        this.$alert(`<p>后端项目：<a  target="_blank" href="https://github.com/ayusharma/RSS-to-JSON">RSS-to-JSON</a></p>
+        this.$alert(`<p>后端项目：<a  target="_blank" href="https://github.com/dahjah/feed-to-json">feed-to-json</a></p>
         <p>目前支持解析的网站：</p>
         <p><a  target="_blank" href="https://mikanani.me/">mikan</a></p>
         <p><a  target="_blank" href="https://www.comicat.org/">漫猫</a></p>

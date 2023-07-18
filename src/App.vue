@@ -191,7 +191,7 @@ export default {
         method: "GET",
         dataType: "json",
         data: {
-          feedURL: `${this.link}`,
+          url: `${this.link}`,
         },
       }).done((response) => {
         for (let i in response.items) {
@@ -218,21 +218,7 @@ export default {
               message: `出错了，请确认地址是否正确`
             });
       });
-    },
-//将url中文部分编码函数
-encodeChineseCharacters(url) {
-  var encodedURL = '';
-  for (var i = 0; i < url.length; i++) {
-    var char = url.charAt(i);
-    if (char.match(/[\u4E00-\u9FA5]/) || char === '+') {
-      encodedURL += encodeURIComponent(char).replace(/%20/g, '+');
-    } else {
-      encodedURL += char;
-    }
-  }
-  return encodedURL;
-},
-    
+    },    
     // 条件筛选
     filter(){
       const resolutioncPattern = new RegExp(this.resolution.selected.join('|'), 'i');

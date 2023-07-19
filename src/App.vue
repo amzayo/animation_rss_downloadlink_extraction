@@ -131,7 +131,6 @@ export default {
       link: '',
       originDatas:[],
       showDatas: [],
-      isLoading: false,
       opt: "",
       count:'',
       customerFilter:{inputString:'',keywords:[]},
@@ -216,15 +215,6 @@ export default {
     count:`${this.count || 10000}`
   },
 }).done((response) => {
-  if(this.isLoading){
-    this.$message({
-      type: 'info',
-      message: `当前正在请求数据中，请稍后……`
-    });
-    return false;
-  }
-  this.isLoading = true;
-  console.log(response.items)
   const tempOriginDatas = [];
   const tempShowDatas = [];
   for (let i in response.items) {
@@ -247,7 +237,6 @@ export default {
   }
   this.originDatas = tempOriginDatas;
   this.showDatas = tempShowDatas;
-  this.isLoading = false;
   this.$message({
     type: 'success',
     message: `下载地址提取成功`
@@ -255,7 +244,7 @@ export default {
 }).fail((response) => {
   this.$message({
     type: 'error',
-    message: `出错了，请确认地址是否正确`
+    message: `出错了，可能是链接不正确或者后端抽风了`
   });
 });
     },    

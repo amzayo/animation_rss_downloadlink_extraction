@@ -139,12 +139,12 @@ export default {
           label: '蜜柑动漫/动漫花园'
         }, {
           value: 'manmao/kiss/dmhy',
-          label: '漫猫/爱恋动漫/动漫花园'
+          label: '漫猫动漫/爱恋动漫/动漫花园'
         },{
           value: 'nyaa',
           label: 'nyaa'
         }],
-      type:'mikan',
+      type:'mikan/dmhy',
       resolution:{
         option:[{
         value: '720',

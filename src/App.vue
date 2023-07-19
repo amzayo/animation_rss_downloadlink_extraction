@@ -212,7 +212,7 @@ export default {
         dataType: "json",
         data: {
           url: `${this.link}`,
-          count:`${this.count}`
+          count:`${this.count || 10000}`
         },
       }).done((response) => {
         console.log(response.items)

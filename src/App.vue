@@ -292,6 +292,7 @@ open() {
         <p>目前支持解析的网站：</p>
         <p><a  target="_blank" href="https://mikanani.me/">蜜柑计划</a></p>
         <p><a  target="_blank" href="https://share.dmhy.org/">动漫花园</a></p>
+        <p><a  target="_blank" href="https://nyaa.si">nyaa</a></p>
         <p><a  target="_blank" href="https://www.comicat.org/">漫猫动漫</a></p>
         <p><a  target="_blank" href="http://www.kisssub.org/">爱恋动漫</a></p>
         <p>By <a target="_blank" href="https://amzayo.com/">amzayo</a></p>`, {
@@ -360,6 +361,7 @@ open() {
 * {
   margin: 0;
   padding: 0;
+  transition: all 1s;
 }
 
 body {

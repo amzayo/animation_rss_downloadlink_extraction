@@ -35,6 +35,12 @@
         </div>
       </el-col>
     </el-row>
+    <el-row type="flex" justify="center" class="hidtop">
+      <el-col class="hidden-lg-and-up">
+        <el-input placeholder="可以手动输入关键字过滤，使用空格隔开" v-model="customerFilter.inputString" clearable
+          v-on:input="filter"></el-input>
+      </el-col>
+    </el-row>
     <el-row type="flex" justify="center" class="top20px">
       <el-col>
         <el-row type="flex" justify="space-between">
@@ -77,10 +83,22 @@
     </el-row>
     <el-row type="flex" justify="center" class="top20px">
       <el-col>
-        <el-table ref="multipleTable" :data="showDatas" height="700" tooltip-effect="dark" style="width: 100%"
+        <el-table class="table" ref="multipleTable" :data="showDatas" height="table" tooltip-effect="dark" style="width: 100%"
           @selection-change="handleSelectionChange" :row-key="showDatas.links">
           <el-table-column type="selection" width="55"></el-table-column>
-          <el-table-column prop="title" label="标题"></el-table-column>
+          <el-table-column prop="title" label="标题">
+            <template slot="header">
+              <el-row>
+                <el-col :span="4" style="line-height: 28px;">
+                  标题
+                </el-col>
+                <el-col :span="18">
+                  <el-input class="hidden-md-and-down" v-model="customerFilter.inputString"  v-on:input="filter"
+                    size="mini" placeholder="可以手动输入关键字过滤，使用空格隔开" />
+                </el-col>
+              </el-row>
+            </template>
+          </el-table-column>
           <el-table-column prop="link" label="下载地址" show-overflow-tooltip width="100"></el-table-column>
         </el-table>
       </el-col>
@@ -105,6 +123,7 @@
 
 <script>
 import $ from 'jquery'
+import 'element-ui/lib/theme-chalk/display.css';
 export default {
   name: 'App',
   data() {
@@ -114,12 +133,16 @@ export default {
       showDatas: [],
       opt: "",
       count:'',
+      customerFilter:{inputString:'',keywords:[]},
       options: [{
-          value: 'mikan',
-          label: '蜜柑动漫'
+          value: 'mikan/dmhy',
+          label: '蜜柑动漫/动漫花园'
         }, {
-          value: 'manmao/kiss',
-          label: '漫猫/爱恋动漫'
+          value: 'manmao/kiss/dmhy',
+          label: '漫猫/爱恋动漫/动漫花园'
+        },{
+          value: 'nyaa',
+          label: 'nyaa'
         }],
       type:'mikan',
       resolution:{
@@ -183,27 +206,30 @@ export default {
       }
       this.originDatas = [];
       this.showDatas = [];
-      //用encodeChineseCharacters方法将中文部分编码，以让后端能正常解析
-      //let eurl = this.encodeChineseCharacters(this.link)
-      //alert(eurl)
       $.ajax({
         url: "https://rssapi.amzayo.top/api",
         method: "GET",
         dataType: "json",
         data: {
           url: `${this.link}`,
+          count:`${this.count}`
         },
       }).done((response) => {
+        console.log(response.items)
         for (let i in response.items) {
+          console.log(response.items[i])
           const tempObj = {};
-          if(this.type === 'mikan'){
+          if(this.type === 'mikan/dmhy'){
             tempObj.title = response.items[i].title;
             tempObj.link = response.items[i].enclosures[0].url;
-          }else if(this.type === 'manmao/kiss'){
+          }else if(this.type === 'manmao/kiss/dmhy'){
             // 拆分获取到的链接，后续拼接成能用的种子地址
             const templink = response.items[i].enclosures[0].url.split("hash=")
             tempObj.title = response.items[i].title;
             tempObj.link = `magnet:?xt=urn:btih:${templink[templink.length-1]}`;
+          }else if(this.type =='nyaa'){
+            tempObj.title = response.items[i].title;
+            tempObj.link = response.items[i].link;;
           }
           this.originDatas.push(tempObj)
           this.showDatas.push(tempObj)
@@ -221,6 +247,9 @@ export default {
     },    
     // 条件筛选
     filter(){
+      this.customerFilter.keywords = this.customerFilter.inputString.split(" ");
+
+      const customerFilterPattern = new RegExp(this.customerFilter.keywords.join('|'), 'i');
       const resolutioncPattern = new RegExp(this.resolution.selected.join('|'), 'i');
       const subLanPattern = new RegExp(this.subLan.selected.join('|'), 'i');
       const subEMPattern = new RegExp(this.subEM.selected.join('|'), 'i');
@@ -228,7 +257,7 @@ export default {
       console.log(compilationsPattern)
       this.showDatas = this.originDatas.filter((item) => {
         let t = item.title
-          if(resolutioncPattern.test(t) && subLanPattern.test(t) && subEMPattern.test(t) && compilationsPattern.test(t)){
+          if(resolutioncPattern.test(t) && subLanPattern.test(t) && subEMPattern.test(t) && compilationsPattern.test(t) && customerFilterPattern.test(t)){
             return item;
         }
       })
@@ -259,12 +288,13 @@ export default {
 },
   //弹出框
 open() {
-        this.$alert(`<p>后端项目：<a  target="_blank" href="https://github.com/dahjah/feed-to-json">feed-to-json</a></p>
+        this.$alert(`<p>后端项目：<a  target="_blank" href="https://github.com/ayusharma/RSS-to-JSON">RSS-to-JSON</a></p>
         <p>目前支持解析的网站：</p>
-        <p><a  target="_blank" href="https://mikanani.me/">mikan</a></p>
-        <p><a  target="_blank" href="https://www.comicat.org/">漫猫</a></p>
-        <p><a  target="_blank" href="http://www.kisssub.org/">爱恋</a></p>
-        <p>By <a target="_blank" href="https://blog.amzayo.com/">amzayo</a></p>`, {
+        <p><a  target="_blank" href="https://mikanani.me/">蜜柑计划</a></p>
+        <p><a  target="_blank" href="https://share.dmhy.org/">动漫花园</a></p>
+        <p><a  target="_blank" href="https://www.comicat.org/">漫猫动漫</a></p>
+        <p><a  target="_blank" href="http://www.kisssub.org/">爱恋动漫</a></p>
+        <p>By <a target="_blank" href="https://amzayo.com/">amzayo</a></p>`, {
           dangerouslyUseHTMLString: true
         });
       }
@@ -279,6 +309,9 @@ open() {
     margin-left: auto !important;
     margin-right: auto !important;
   }
+  .table{
+    height: 600px;
+  }
 }
 
 @media screen and (min-width: 922px) and (max-width:1199px) {
@@ -286,6 +319,12 @@ open() {
     width: 880px;
     margin-left: auto !important;
     margin-right: auto !important;
+  }
+  .table{
+    height: 600px;
+  }
+  .hidtop{
+    margin-top: 20px
   }
 }
 
@@ -295,6 +334,12 @@ open() {
     margin-left: auto !important;
     margin-right: auto !important;
   }
+  .table{
+    height: 400px;
+  }
+  .hidtop{
+    margin-top: 20px
+  }
 }
 
 @media screen and (max-width: 768px) {
@@ -302,7 +347,13 @@ open() {
     width: 100%;
     padding: 0px 10px 0 10px !important;
     box-sizing: border-box;
-    
+
+  }
+  .table{
+    height: 300px;
+  }
+  .hidtop{
+    margin-top: 20px
   }
 }
 
@@ -326,7 +377,7 @@ h1 {
   font-size: 30px;
 }
 
-h3{
+h3 {
   font-size: 14px;
 }
 

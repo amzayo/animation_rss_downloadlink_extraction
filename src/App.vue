@@ -216,7 +216,7 @@ export default {
           count:`${this.count || 10000}`
         },
       }).done((response) => {
-        if(this.isLoading = true){
+        if(this.isLoading){
           this.$message({
               type: 'info',
               message: `当前正在请求数据中，请稍后……`

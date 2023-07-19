@@ -237,6 +237,7 @@ export default {
   }
   this.originDatas = tempOriginDatas;
   this.showDatas = tempShowDatas;
+  this.filter();
   this.$message({
     type: 'success',
     message: `下载地址提取成功`

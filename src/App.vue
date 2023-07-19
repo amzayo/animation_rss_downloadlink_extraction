@@ -208,52 +208,56 @@ export default {
       this.originDatas = [];
       this.showDatas = [];
       $.ajax({
-        url: "https://rssapi.amzayo.top/api",
-        method: "GET",
-        dataType: "json",
-        data: {
-          url: `${this.link}`,
-          count:`${this.count || 10000}`
-        },
-      }).done((response) => {
-        if(this.isLoading){
-          this.$message({
-              type: 'info',
-              message: `当前正在请求数据中，请稍后……`
-            });
-          return false;
-        }
-        this.isLoading=true;
-        console.log(response.items)
-        for (let i in response.items) {
-          console.log(response.items[i])
-          const tempObj = {};
-          if(this.type === 'mikan/dmhy'){
-            tempObj.title = response.items[i].title;
-            tempObj.link = response.items[i].enclosures[0].url;
-          }else if(this.type === 'manmao/kiss/dmhy'){
-            // 拆分获取到的链接，后续拼接成能用的种子地址
-            const templink = response.items[i].enclosures[0].url.split("hash=")
-            tempObj.title = response.items[i].title;
-            tempObj.link = `magnet:?xt=urn:btih:${templink[templink.length-1]}`;
-          }else if(this.type =='nyaa'){
-            tempObj.title = response.items[i].title;
-            tempObj.link = response.items[i].link;;
-          }
-          this.originDatas.push(tempObj)
-          this.showDatas.push(tempObj)
-          this.isLoading=false;
-        }
-        this.$message({
-              type: 'success',
-              message: `下载地址提取成功`
-            });
-      }).fail((response) => {
-          this.$message({
-              type: 'error',
-              message: `出错了，请确认地址是否正确`
-            });
-      });
+  url: "https://rssapi.amzayo.top/api",
+  method: "GET",
+  dataType: "json",
+  data: {
+    url: `${this.link}`,
+    count:`${this.count || 10000}`
+  },
+}).done((response) => {
+  if(this.isLoading){
+    this.$message({
+      type: 'info',
+      message: `当前正在请求数据中，请稍后……`
+    });
+    return false;
+  }
+  this.isLoading = true;
+  console.log(response.items)
+  const tempOriginDatas = [];
+  const tempShowDatas = [];
+  for (let i in response.items) {
+    console.log(response.items[i])
+    const tempObj = {};
+    if(this.type === 'mikan/dmhy'){
+      tempObj.title = response.items[i].title;
+      tempObj.link = response.items[i].enclosures[0].url;
+    }else if(this.type === 'manmao/kiss/dmhy'){
+      // 拆分获取到的链接，后续拼接成能用的种子地址
+      const templink = response.items[i].enclosures[0].url.split("hash=")
+      tempObj.title = response.items[i].title;
+      tempObj.link = `magnet:?xt=urn:btih:${templink[templink.length-1]}`;
+    }else if(this.type =='nyaa'){
+      tempObj.title = response.items[i].title;
+      tempObj.link = response.items[i].link;;
+    }
+    tempOriginDatas.push(tempObj)
+    tempShowDatas.push(tempObj)
+  }
+  this.originDatas = tempOriginDatas;
+  this.showDatas = tempShowDatas;
+  this.isLoading = false;
+  this.$message({
+    type: 'success',
+    message: `下载地址提取成功`
+  });
+}).fail((response) => {
+  this.$message({
+    type: 'error',
+    message: `出错了，请确认地址是否正确`
+  });
+});
     },    
     // 条件筛选
     filter(){

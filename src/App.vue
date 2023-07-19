@@ -131,6 +131,7 @@ export default {
       link: '',
       originDatas:[],
       showDatas: [],
+      isLoading: false,
       opt: "",
       count:'',
       customerFilter:{inputString:'',keywords:[]},
@@ -215,6 +216,14 @@ export default {
           count:`${this.count || 10000}`
         },
       }).done((response) => {
+        if(this.isLoading = true){
+          this.$message({
+              type: 'info',
+              message: `当前正在请求数据中，请稍后……`
+            });
+          return false;
+        }
+        this.isLoading=true;
         console.log(response.items)
         for (let i in response.items) {
           console.log(response.items[i])
@@ -233,6 +242,7 @@ export default {
           }
           this.originDatas.push(tempObj)
           this.showDatas.push(tempObj)
+          this.isLoading=false;
         }
         this.$message({
               type: 'success',

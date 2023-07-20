@@ -1,1 +1,0 @@
-export const apiUrl = '';//你的后端API地址，注意请求路径

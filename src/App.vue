@@ -28,63 +28,73 @@
         </el-row>
       </el-col>
     </el-row>
-    <el-row type="flex" justify="center" class="top20px">
+    <el-row class="top20px">
       <el-col>
-        <div>
+        <div @click="showOrHid">
           <h3>由于各字幕组命名标准不同，筛选结果仅供参考</h3>
         </div>
       </el-col>
     </el-row>
-    <el-row type="flex" justify="center" class="hidtop">
-      <el-col class="hidden-lg-and-up">
-        <el-input placeholder="可以手动输入关键字过滤，使用空格隔开" v-model="customerFilter.inputString" clearable
-          v-on:input="filter"></el-input>
+    <el-row type="flex" justify="center" class="md20px">
+      <el-col>
+        <el-collapse-transition>
+          <div v-show="filterBoxStatus" class="filterBox" ref="filterBox">
+            <el-row type="flex" justify="center">
+              <el-col class="hidden-lg-and-up">
+                <el-input placeholder="可以手动输入关键字过滤，使用空格隔开" v-model="customerFilter.inputString" clearable
+                  v-on:input="filter"></el-input>
+              </el-col>
+            </el-row>
+            <el-row type="flex" justify="center" class="top20px">
+              <el-col>
+                <el-row type="flex" justify="space-between">
+                  <el-col :span="11">
+                    <el-select @change="filter" v-model="resolution.selected" collapse-tags multiple placeholder="分辨率"
+                      style="width: 100%">
+                      <el-option v-for="item in resolution.option" :key="item.value" :label="item.label"
+                        :value="item.value">
+                      </el-option>
+                    </el-select>
+                  </el-col>
+                  <el-col :span="11">
+                    <el-select @change="filter" v-model="subLan.selected" collapse-tags multiple placeholder="字幕语言"
+                      style="width: 100%">
+                      <el-option v-for="item in subLan.option" :key="item.value" :label="item.label" :value="item.value">
+                      </el-option>
+                    </el-select>
+                  </el-col>
+                </el-row>
+              </el-col>
+            </el-row>
+            <el-row type="flex" justify="center" class="top20px">
+              <el-col>
+                <el-row type="flex" justify="space-between">
+                  <el-col :span="11">
+                    <el-select @change="filter" v-model="subEM.selected" collapse-tags multiple placeholder="字幕嵌入方式"
+                      style="width: 100%">
+                      <el-option v-for="item in subEM.option" :key="item.value" :label="item.label" :value="item.value">
+                      </el-option>
+                    </el-select>
+                  </el-col>
+                  <el-col :span="11">
+                    <el-select @change="filter" v-model="compilations.selected" collapse-tags multiple placeholder="只显示合集"
+                      style="width: 100%">
+                      <el-option v-for="item in compilations.option" :key="item.value" :label="item.label"
+                        :value="item.value">
+                      </el-option>
+                    </el-select>
+                  </el-col>
+                </el-row>
+              </el-col>
+            </el-row>
+          </div>
+        </el-collapse-transition>
       </el-col>
     </el-row>
     <el-row type="flex" justify="center" class="top20px">
       <el-col>
-        <el-row type="flex" justify="space-between">
-          <el-col :span="11">
-            <el-select @change="filter" v-model="resolution.selected" collapse-tags multiple placeholder="分辨率"
-              style="width: 100%">
-              <el-option v-for="item in resolution.option" :key="item.value" :label="item.label" :value="item.value">
-              </el-option>
-            </el-select>
-          </el-col>
-          <el-col :span="11">
-            <el-select @change="filter" v-model="subLan.selected" collapse-tags multiple placeholder="字幕语言"
-              style="width: 100%">
-              <el-option v-for="item in subLan.option" :key="item.value" :label="item.label" :value="item.value">
-              </el-option>
-            </el-select>
-          </el-col>
-        </el-row>
-      </el-col>
-    </el-row>
-    <el-row type="flex" justify="center" class="top20px">
-      <el-col>
-        <el-row type="flex" justify="space-between">
-          <el-col :span="11">
-            <el-select @change="filter" v-model="subEM.selected" collapse-tags multiple placeholder="字幕嵌入方式"
-              style="width: 100%">
-              <el-option v-for="item in subEM.option" :key="item.value" :label="item.label" :value="item.value">
-              </el-option>
-            </el-select>
-          </el-col>
-          <el-col :span="11">
-            <el-select @change="filter" v-model="compilations.selected" collapse-tags multiple placeholder="只显示合集"
-              style="width: 100%">
-              <el-option v-for="item in compilations.option" :key="item.value" :label="item.label" :value="item.value">
-              </el-option>
-            </el-select>
-          </el-col>
-        </el-row>
-      </el-col>
-    </el-row>
-    <el-row type="flex" justify="center" class="top20px">
-      <el-col>
-        <el-table class="table" ref="multipleTable" :data="showDatas" height="table" tooltip-effect="dark" style="width: 100%"
-          @selection-change="handleSelectionChange" :row-key="showDatas.links">
+        <el-table class="table" ref="multipleTable" :data="showDatas" height="table" tooltip-effect="dark"
+          style="width: 100%" @selection-change="handleSelectionChange" :row-key="showDatas.links">
           <el-table-column type="selection" width="55"></el-table-column>
           <el-table-column prop="title" label="标题">
             <template slot="header">
@@ -93,7 +103,7 @@
                   标题
                 </el-col>
                 <el-col :span="18">
-                  <el-input class="hidden-md-and-down" v-model="customerFilter.inputString"  v-on:input="filter"
+                  <el-input class="hidden-md-and-down" v-model="customerFilter.inputString" v-on:input="filter"
                     size="mini" placeholder="可以手动输入关键字过滤，使用空格隔开" />
                 </el-col>
               </el-row>
@@ -131,6 +141,8 @@ export default {
       link: '',
       originDatas:[],
       showDatas: [],
+      width:0,
+      filterBoxStatus:true,
       opt: "",
       count:'',
       customerFilter:{inputString:'',keywords:[]},
@@ -286,11 +298,31 @@ export default {
     },
     //反选
     reverseSelect() {
-    this.showDatas.forEach(row => {
+    this.showDatas.forEach(row => {this.width
     this.$refs.multipleTable.toggleRowSelection(row);
   })
 },
+// 折叠框
+showOrHid(){
+      const filterBox = document.getElementsByClassName('filterBox')[0];
+      this.filterBoxStatus = !this.filterBoxStatus;
+      if(this.width <= 1199 ){
+        if(this.filterBoxStatus === false){
+          filterBox.style.marginTop = 0 +'px';
+      }else{
+          filterBox.style.marginTop = 20 +'px';
+      }
+    }else if(this.width >= 1199 && this.filterBoxStatus === true){
+      filterBox.style.marginTop = 0 +'px';
+    }
+},
+    updateViewportWidth() {
+      this.width = window.innerWidth;
+    },
+  
+
   //弹出框
+
 open() {
         this.$alert(`<p>后端项目：<a  target="_blank" href="https://github.com/ayusharma/RSS-to-JSON">RSS-to-JSON</a></p>
         <p>目前支持解析的网站：</p>
@@ -302,8 +334,30 @@ open() {
         <p>By <a target="_blank" href="https://amzayo.com/">amzayo</a></p>`, {
           dangerouslyUseHTMLString: true
         });
+      },
+  },
+  mounted() {
+    this.updateViewportWidth();
+    this.$refs.filterBox.style.transition = 'all 0.5s';
+    window.addEventListener('resize', this.updateViewportWidth);
+  },
+  beforeDestroy() {
+    window.removeEventListener('resize', this.updateViewportWidth);
+  },
+  watch:{
+    width(newValue){
+      console.log(newValue)
+      const filterBox = document.getElementsByClassName('filterBox')[0];
+      if(newValue >= 1199){
+        this.filterBoxStatus = true;
+        filterBox.style.marginTop = 0 +'px';
+      }else{
+        this.filterBoxStatus = false;
+        filterBox.style.marginTop = 20 +'px';
       }
+    }
   }
+  
 }
 </script>
 
@@ -314,7 +368,8 @@ open() {
     margin-left: auto !important;
     margin-right: auto !important;
   }
-  .table{
+
+  .table {
     height: 600px;
   }
 }
@@ -325,12 +380,11 @@ open() {
     margin-left: auto !important;
     margin-right: auto !important;
   }
-  .table{
+
+  .table {
     height: 600px;
   }
-  .hidtop{
-    margin-top: 20px
-  }
+
 }
 
 @media screen and (min-width: 768px) and (max-width:922px) {
@@ -339,11 +393,9 @@ open() {
     margin-left: auto !important;
     margin-right: auto !important;
   }
-  .table{
-    height: 400px;
-  }
-  .hidtop{
-    margin-top: 20px
+
+  .table {
+    height: 500px;
   }
 }
 
@@ -354,18 +406,17 @@ open() {
     box-sizing: border-box;
 
   }
-  .table{
-    height: 300px;
+
+  .table {
+    height: 520px;
   }
-  .hidtop{
-    margin-top: 20px
-  }
+
 }
 
 * {
   margin: 0;
   padding: 0;
-  transition: all 1s;
+  transition: all .5s;
 }
 
 body {

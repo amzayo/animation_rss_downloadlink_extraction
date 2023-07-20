@@ -134,6 +134,7 @@
 
 <script>
 import $ from 'jquery'
+import { apiUrl } from '../config';
 import 'element-ui/lib/theme-chalk/display.css';
 export default {
   name: 'App',
@@ -236,7 +237,7 @@ export default {
       this.originDatas = [];
       this.showDatas = [];
       $.ajax({
-  url: "https://api.rss.amzayo.top/api",
+  url: `${apiUrl}`,
   method: "GET",
   dataType: "json",
   data: {

@@ -148,16 +148,32 @@ export default {
       count:'',
       customerFilter:{inputString:'',keywords:[]},
       options: [{
-          value: 'mikan/dmhy',
-          label: '蜜柑动漫/动漫花园'
-        }, {
-          value: 'manmao/kiss/dmhy',
-          label: '漫猫动漫/爱恋动漫/动漫花园'
+          value: 'mikan',
+          label: '蜜柑动漫'
+        },{
+          value: 'dmhy',
+          label: '动漫花园'
+        },{
+          value: 'bangumi',
+          label: '萌番组'
+        },{
+          value: 'acgrip',
+          label: 'acgrip'
+        },{
+          value: 'comicat',
+          label: '漫猫动漫'
+        },{
+          value: 'kiss',
+          label: '爱恋动漫'
         },{
           value: 'nyaa',
           label: 'nyaa'
         }],
-      type:'mikan/dmhy',
+        //解析分类：
+        //蜜柑/动漫花园/萌番组/acgrip
+        //漫猫/爱恋
+        //nyaa
+      type:'mikan',
       resolution:{
         option:[{
         value: '720',
@@ -224,7 +240,7 @@ export default {
   method: "GET",
   dataType: "json",
   data: {
-    url: `${this.link}`,
+    url: `${decodeURI(this.link)}`,
     count:`${this.count || 10000}`
   },
 }).done((response) => {
@@ -232,15 +248,19 @@ export default {
   const tempShowDatas = [];
   for (let i in response.items) {
     const tempObj = {};
-    if(this.type === 'mikan/dmhy'){
+    if(this.type === 'mikan' || this.type === 'dmhy' || this.type === 'bangumi' || this.type === 'acgrip'){
       tempObj.title = response.items[i].title;
-      tempObj.link = response.items[i].enclosures[0].url;
-    }else if(this.type === 'manmao/kiss/dmhy'){
+      if(this.type === 'bangumi'){//萌番组链接可能含中文，需要编码
+        tempObj.link = encodeURI(response.items[i].enclosures[0].url);
+      }else{
+        tempObj.link = response.items[i].enclosures[0].url;
+      }
+    }else if(this.type === 'comicat' || this.type === 'kiss'){
       // 拆分获取到的链接，后续拼接成能用的种子地址
       const templink = response.items[i].enclosures[0].url.split("hash=")
       tempObj.title = response.items[i].title;
       tempObj.link = `magnet:?xt=urn:btih:${templink[templink.length-1]}`;
-    }else if(this.type =='nyaa'){
+    }else if(this.type ==='nyaa'){
       tempObj.title = response.items[i].title;
       tempObj.link = response.items[i].link;;
     }
@@ -327,9 +347,11 @@ open() {
         <p>目前支持解析的网站：</p>
         <p><a  target="_blank" href="https://mikanani.me/">蜜柑计划</a></p>
         <p><a  target="_blank" href="https://share.dmhy.org/">动漫花园</a></p>
-        <p><a  target="_blank" href="https://nyaa.si">nyaa</a></p>
+        <p><a  target="_blank" href="https://bangumi.moe/">萌番组</a></p>
+        <p><a  target="_blank" href="https://acg.rip/">acgrip</a></p>
         <p><a  target="_blank" href="https://www.comicat.org/">漫猫动漫</a></p>
         <p><a  target="_blank" href="http://www.kisssub.org/">爱恋动漫</a></p>
+        <p><a  target="_blank" href="https://nyaa.si">nyaa</a></p>
         <p>By <a target="_blank" href="https://amzayo.com/">amzayo</a></p>`, {
           dangerouslyUseHTMLString: true
         });
@@ -355,7 +377,6 @@ open() {
       }
     }
   }
-  
 }
 </script>
 

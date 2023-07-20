@@ -1,16 +1,16 @@
 <template>
   <div id="app" class="container">
-    <el-row type="flex" justify="center" class="top20px">
+    <el-row type="flex" justify="center" class="top15px">
       <el-col>
         <h1>动漫RSS订阅提取下载地址</h1>
       </el-col>
     </el-row>
-    <el-row type="flex" justify="center" class="top20px">
+    <el-row type="flex" justify="center" class="top15px">
       <el-col>
         <el-input placeholder="请输入RSS链接" v-model="link" clearable></el-input>
       </el-col>
     </el-row>
-    <el-row type="flex" justify="center" class="top20px">
+    <el-row type="flex" justify="center" class="top15px">
       <el-col>
         <el-row type="flex" justify="space-between">
           <el-col :span="7">
@@ -28,9 +28,10 @@
         </el-row>
       </el-col>
     </el-row>
-    <el-row class="top20px">
+    <el-row class="top15px">
       <el-col>
         <div @click="showOrHid">
+          <h3>点击折叠/打开筛选</h3>
           <h3>由于各字幕组命名标准不同，筛选结果仅供参考</h3>
         </div>
       </el-col>
@@ -45,7 +46,7 @@
                   v-on:input="filter"></el-input>
               </el-col>
             </el-row>
-            <el-row type="flex" justify="center" class="top20px">
+            <el-row type="flex" justify="center" class="top15px">
               <el-col>
                 <el-row type="flex" justify="space-between">
                   <el-col :span="11">
@@ -66,7 +67,7 @@
                 </el-row>
               </el-col>
             </el-row>
-            <el-row type="flex" justify="center" class="top20px">
+            <el-row type="flex" justify="center" class="top15px">
               <el-col>
                 <el-row type="flex" justify="space-between">
                   <el-col :span="11">
@@ -91,7 +92,7 @@
         </el-collapse-transition>
       </el-col>
     </el-row>
-    <el-row type="flex" justify="center" class="top20px">
+    <el-row type="flex" justify="center" class="top15px">
       <el-col>
         <el-table class="table" ref="multipleTable" :data="showDatas" height="table" tooltip-effect="dark"
           style="width: 100%" @selection-change="handleSelectionChange" :row-key="showDatas.links">
@@ -113,13 +114,13 @@
         </el-table>
       </el-col>
     </el-row>
-    <el-row type="flex" justify="center" class="top20px">
+    <el-row type="flex" justify="center" class="top15px">
       <el-col>
         <el-input type="textarea" :rows="2" placeholder="如果复制失败，您可以在这里手动复制结果" v-model="opt">
         </el-input>
       </el-col>
     </el-row>
-    <el-row type="flex" justify="space-around" class="top20px">
+    <el-row type="flex" justify="space-around" class="top15px">
       <el-col :span="23">
         <el-button @click="copy">复制选中</el-button>
         <el-button @click="reverseSelect">反选</el-button>
@@ -230,7 +231,6 @@ export default {
   const tempOriginDatas = [];
   const tempShowDatas = [];
   for (let i in response.items) {
-    console.log(response.items[i])
     const tempObj = {};
     if(this.type === 'mikan/dmhy'){
       tempObj.title = response.items[i].title;
@@ -270,7 +270,6 @@ export default {
       const subLanPattern = new RegExp(this.subLan.selected.join('|'), 'i');
       const subEMPattern = new RegExp(this.subEM.selected.join('|'), 'i');
       const compilationsPattern = new RegExp(this.compilations.selected.join('|'), 'i');
-      console.log(compilationsPattern)
       this.showDatas = this.originDatas.filter((item) => {
         let t = item.title
           if(resolutioncPattern.test(t) && subLanPattern.test(t) && subEMPattern.test(t) && compilationsPattern.test(t) && customerFilterPattern.test(t)){
@@ -346,7 +345,6 @@ open() {
   },
   watch:{
     width(newValue){
-      console.log(newValue)
       const filterBox = document.getElementsByClassName('filterBox')[0];
       if(newValue >= 1199){
         this.filterBoxStatus = true;
@@ -408,7 +406,7 @@ open() {
   }
 
   .table {
-    height: 520px;
+    height: 460px;
   }
 
 }
@@ -443,8 +441,8 @@ h3 {
   float: right;
 }
 
-.top20px {
-  margin-top: 20px;
+.top15px {
+  margin-top: 15px;
 }
 
 .seletTip {

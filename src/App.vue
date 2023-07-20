@@ -31,7 +31,7 @@
     <el-row class="top15px">
       <el-col>
         <div @click="showOrHid">
-          <h3>点击<spn v-if="filterBoxStatus">折叠</spn><spn v-if="!filterBoxStatus">展开</spn>筛选</h3>
+          <h3>点我<spn v-if="filterBoxStatus">折叠</spn><spn v-if="!filterBoxStatus">展开</spn>筛选</h3>
           <h3>由于各字幕组命名标准不同，筛选结果仅供参考</h3>
         </div>
       </el-col>

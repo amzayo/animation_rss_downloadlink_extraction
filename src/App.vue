@@ -343,7 +343,7 @@ showOrHid(){
   //弹出框
 
 open() {
-        this.$alert(`<p>前端项目：<a  target="_blank" href="https://github.com/petra1026/animation_rss_downloadlink_extraction">RSS-to-JSON</a></p>
+        this.$alert(`<p>前端项目：<a  target="_blank" href="https://github.com/petra1026/animation_rss_downloadlink_extraction">animation_rss_downloadlink_extraction</a></p>
         <p>后端项目：<a  target="_blank" href="https://github.com/ayusharma/RSS-to-JSON">RSS-to-JSON</a></p>
         <p>目前支持解析的网站：</p>
         <p><a  target="_blank" href="https://mikanani.me/">蜜柑计划</a></p>

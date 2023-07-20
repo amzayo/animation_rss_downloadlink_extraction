@@ -17,6 +17,7 @@ npm run serve
 ```
 
 ### 构建
+在构建之前，请在config.js中配置你的后端Api地址。附后端项目地址:[https://github.com/petra1026/RSS-to-JSON](https://github.com/petra1026/RSS-to-JSON)
 ```
 npm run build
 

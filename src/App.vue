@@ -236,7 +236,7 @@ export default {
       this.originDatas = [];
       this.showDatas = [];
       $.ajax({
-  url: "https://rssapi.amzayo.top/api",
+  url: "https://api.rss.amzayo.top/api",
   method: "GET",
   dataType: "json",
   data: {

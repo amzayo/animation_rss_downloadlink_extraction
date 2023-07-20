@@ -428,7 +428,7 @@ open() {
   }
 
   .table {
-    height: 460px;
+    height: 430px;
   }
 
 }

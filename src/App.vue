@@ -458,23 +458,11 @@ h3 {
   font-size: 14px;
 }
 
-#trsbtn,
 #about {
   float: right;
 }
 
 .top15px {
   margin-top: 15px;
-}
-
-.seletTip {
-  line-height: 40px;
-  font-size: 14px;
-  color: white;
-}
-
-.opc {
-  display: flex;
-  justify-content: space-between;
 }
 </style>

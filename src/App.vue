@@ -353,7 +353,7 @@ open() {
         <p><a  target="_blank" href="https://www.comicat.org/">漫猫动漫</a></p>
         <p><a  target="_blank" href="http://www.kisssub.org/">爱恋动漫</a></p>
         <p><a  target="_blank" href="https://nyaa.si">nyaa</a></p>
-        <p>By <a target="_blank" href="https://amzayo.com/">amzayo</a></p>`, {
+        `,{
           dangerouslyUseHTMLString: true
         });
       },
